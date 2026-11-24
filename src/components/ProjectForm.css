@@ -1,0 +1,187 @@
+/* =========================================
+   DASHFLOW | PROJECT FORM MODAL
+========================================= */
+
+.project-form-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 10, 15, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 2000;
+  overflow-y: auto;
+}
+
+.project-form-modal {
+  width: 100%;
+  max-width: 550px;
+  background: var(--card-bg, #ffffff);
+  color: var(--text-color, #421324);
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  margin: auto;
+}
+
+/* HEADER */
+
+.project-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.project-form-header h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+}
+
+.project-form-header p {
+  margin: 0;
+  color: #888;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.project-form-close {
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-color, #421324);
+  font-size: 25px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.project-form-close:hover {
+  background: rgba(100, 30, 54, 0.08);
+}
+
+/* FORM */
+
+.project-form-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.project-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.project-form-field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.project-form-field input,
+.project-form-field textarea,
+.project-form-field select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  border: 1px solid var(--border-color, #e2d8dd);
+  border-radius: 10px;
+  outline: none;
+  background: var(--card-bg, #ffffff);
+  color: var(--text-color, #333);
+  font-family: inherit;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.project-form-field input:focus,
+.project-form-field textarea:focus,
+.project-form-field select:focus {
+  border-color: #641e36;
+  box-shadow: 0 0 0 3px rgba(100, 30, 54, 0.08);
+}
+
+.project-form-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.project-form-field select {
+  cursor: pointer;
+}
+
+/* TWO COLUMN FIELDS */
+
+.project-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+/* ACTIONS */
+
+.project-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.project-form-cancel,
+.project-form-submit {
+  padding: 12px 18px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.project-form-cancel {
+  border: 1px solid var(--border-color, #ddd);
+  background: transparent;
+  color: var(--text-color, #444);
+}
+
+.project-form-cancel:hover {
+  background: rgba(100, 30, 54, 0.05);
+}
+
+.project-form-submit {
+  border: none;
+  background: #641e36;
+  color: white;
+}
+
+.project-form-submit:hover {
+  background: #852d4b;
+  transform: translateY(-1px);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 500px) {
+  .project-form-modal {
+    padding: 22px;
+  }
+
+  .project-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .project-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .project-form-actions button {
+    width: 100%;
+  }
+}
