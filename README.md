@@ -1,110 +1,166 @@
 
-# DASHFLOW – Modern React Dashboard
+# DASHFLOW – Full Stack Dashboard Application
 
-DASHFLOW is a modern, responsive dashboard application built with React. It features a clean user interface, reusable components, and interactive sections designed to simplify project and business management.
+DASHFLOW is a dashboard application that started as a React frontend project and has been expanded with a backend powered by Node.js, Express.js, and PostgreSQL.
 
-## 🚀 Features
+The project focuses on building a structured application with a React-based interface, RESTful APIs, and a relational database.
 
-- **Dashboard Interface:** Modern dashboard layout with organized sections.
-- **Responsive Design:** Optimized layouts for desktop, tablet, and mobile screens.
-- **Projects Management:** View and manage projects with details such as status, priority, and due dates.
-- **Transaction Table:** Display transaction information, amounts, dates, and payment statuses.
-- **Team Members:** View team member information, including names and email addresses.
-- **Reusable Components:** Modular React components for maintainable and scalable development.
-- **Profile & Login Interface:** User-facing login and profile functionality.
-- **Premium UI:** Custom burgundy color theme with a clean and consistent design.
+## 🚀 Tech Stack
 
-## 🛠️ Tech Stack
+### Frontend
+- React.js
+- JavaScript
+- HTML5
+- CSS3
 
-| Technology | Purpose |
+### Backend
+- Node.js
+- Express.js
+- PostgreSQL
+- RESTful APIs
+
+### Tools
+- Visual Studio Code
+- Postman
+- Git and GitHub
+
+## ✨ Features
+
+### Frontend
+- Dashboard interface built with React.
+- Responsive user interface.
+- Interactive dashboard components.
+
+### Backend
+- Express.js server connected to PostgreSQL.
+- Separate models, controllers, and routes.
+- User management APIs.
+- Product management APIs.
+- Order management APIs.
+- CRUD operations (Create, Read, Update, Delete).
+- Input validation for user-related requests.
+- Partial updates for order records.
+- Centralized database connection configuration.
+
+## 🗄️ Database Structure
+
+The PostgreSQL database contains seven tables:
+
+| Table | Purpose |
 |---|---|
-| React.js | Frontend development |
-| JavaScript | Application functionality |
-| HTML5 | Structure |
-| CSS3 | Styling and responsive layouts |
-| Vite | Development and build tooling |
-| Git & GitHub | Version control |
+| users | User information |
+| products | Product information |
+| categories | Product categories |
+| orders | Customer orders |
+| order_items | Items associated with orders |
+| carts | Shopping carts |
+| cart_items | Products in shopping carts |
 
-## 📂 Project Structure
+## 🔌 API Modules
 
-```text
-DASHFLOW/
-│
-├── public/
-│
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── assets/
-│   └── ...
-│
-├── index.html
-├── package.json
-├── package-lock.json
-├── vite.config.js
-├── .gitignore
-└── README.md
-```
+### Users
+- Create user
+- Get all users
+- Get user by ID
+- Update user
+- Delete user
 
-*Note: The structure above is illustrative; your actual folders may differ.*
+### Products
+- Create product
+- Get all products
+- Get product by ID
+- Update product
+- Delete product
 
-## 💻 Getting Started
+### Orders
+- Create order
+- Get all orders
+- Get order by ID
+- Update order
+- Delete order
 
-Follow these steps to run DASHFLOW locally.
+## 🧪 API Testing
+
+Postman was used to test the REST API endpoints, including:
+
+- GET
+- POST
+- PUT
+- DELETE
+
+## ⚙️ Installation and Setup
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/ms-tech-tape/DASHFLOW.git
-```
-
-### 2. Navigate to the project directory
-
-```bash
 cd DASHFLOW
 ```
 
-### 3. Install dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 4. Start the development server
+### 3. Configure environment variables
+
+Create a `.env` file in the project root.
+
+Add your PostgreSQL configuration using the variable names expected by `config/db.js`.
+
+Never commit your actual `.env` file.
+
+### 4. Start the backend
 
 ```bash
-npm run dev
+node server.mjs
 ```
 
-Open the local URL displayed in your terminal to view the application.
+The backend runs on port 5000.
 
-## 🎯 Project Objective
+## 📂 Backend Project Structure
 
-The objective of DASHFLOW is to build a modern dashboard experience while applying practical frontend development concepts, including:
+```text
+DASHFLOW/
+├── config/
+│   └── db.js
+├── controllers/
+│   ├── userController.js
+│   ├── productController.js
+│   └── orderController.js
+├── middleware/
+│   └── userValidation.js
+├── models/
+│   ├── userModel.js
+│   ├── productModel.js
+│   └── orderModel.js
+├── routes/
+│   ├── userRoutes.js
+│   ├── productRoutes.js
+│   └── orderRoutes.js
+├── server.mjs
+├── package.json
+└── README.md
+```
 
-- Component-based architecture
-- React state management
-- Reusable UI components
-- Responsive web design
-- Interactive user interfaces
-- CSS styling and layout techniques
+## 🎯 Learning Outcomes
 
-## 🔮 Future Improvements
+Through DASHFLOW, I have been exploring:
 
-- Backend integration
-- Database connectivity
-- Authentication and authorization
-- Advanced analytics and visualizations
-- Improved dashboard customization
+- React frontend development.
+- Backend development with Node.js and Express.js.
+- REST API design and implementation.
+- PostgreSQL database integration.
+- CRUD operations.
+- API testing using Postman.
+- Organizing backend code using models, controllers, and routes.
 
 ## 👩‍💻 Developer
 
 **Mishree Savani**
 
-B.Tech – Computer Science and Engineering
-
 GitHub: https://github.com/ms-tech-tape
 
 ---
 
-⭐ If you find this project interesting, feel free to explore the repository!
