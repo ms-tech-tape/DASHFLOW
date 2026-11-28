@@ -1,166 +1,289 @@
+# DASHFLOW – Project Management Dashboard
 
-# DASHFLOW – Full Stack Dashboard Application
+DASHFLOW is a full-stack project management dashboard built with React, Node.js, Express.js, and PostgreSQL.
 
-DASHFLOW is a dashboard application that started as a React frontend project and has been expanded with a backend powered by Node.js, Express.js, and PostgreSQL.
+It provides a dashboard interface for managing projects and displaying analytics, along with a backend REST API for handling users, products, and orders.
 
-The project focuses on building a structured application with a React-based interface, RESTful APIs, and a relational database.
+The application also includes user authentication, JWT-based authorization, and role-based access control for regular users and administrators.
 
-## 🚀 Tech Stack
-
-### Frontend
-- React.js
-- JavaScript
-- HTML5
-- CSS3
-
-### Backend
-- Node.js
-- Express.js
-- PostgreSQL
-- RESTful APIs
-
-### Tools
-- Visual Studio Code
-- Postman
-- Git and GitHub
-
-## ✨ Features
+## 🚀 Features
 
 ### Frontend
-- Dashboard interface built with React.
-- Responsive user interface.
-- Interactive dashboard components.
+- Responsive dashboard interface.
+- React-based component architecture.
+- Dashboard overview and analytics.
+- Project management interface.
+- Messages and settings pages.
+- Profile management.
+- Data visualization using Recharts.
+- Client-side navigation using React Router.
 
 ### Backend
-- Express.js server connected to PostgreSQL.
-- Separate models, controllers, and routes.
-- User management APIs.
-- Product management APIs.
-- Order management APIs.
-- CRUD operations (Create, Read, Update, Delete).
-- Input validation for user-related requests.
-- Partial updates for order records.
-- Centralized database connection configuration.
+- RESTful APIs using Node.js and Express.js.
+- PostgreSQL database integration.
+- User, product, and order management.
+- Modular backend architecture using routes, controllers, and models.
+- Request validation using Express Validator.
+- Centralized authentication and role middleware.
 
-## 🗄️ Database Structure
+### Authentication & Authorization
+- User registration and login.
+- Password hashing using bcrypt.
+- JWT-based authentication.
+- Protected API routes.
+- User and Admin role-based access control (RBAC).
+- Protected dashboard and admin access.
 
-The PostgreSQL database contains seven tables:
+### Database
+- PostgreSQL integration using the `pg` package.
+- Database connection pooling.
+- Relational database structure.
+- Tables for users, products, categories, orders, order items, carts, and cart items.
 
-| Table | Purpose |
+## 🛠️ Tech Stack
+
+| Category | Technologies |
 |---|---|
-| users | User information |
-| products | Product information |
-| categories | Product categories |
-| orders | Customer orders |
-| order_items | Items associated with orders |
-| carts | Shopping carts |
-| cart_items | Products in shopping carts |
+| Frontend | React.js, JavaScript, HTML5, CSS3 |
+| Routing | React Router |
+| Charts | Recharts |
+| Build Tool | Vite |
+| Backend | Node.js, Express.js |
+| Database | PostgreSQL |
+| Database Driver | node-postgres (`pg`) |
+| Authentication | JSON Web Token (JWT), bcrypt |
+| Validation | Express Validator |
+| Middleware | CORS, Express Middleware |
+| Environment Variables | dotenv |
+| Code Quality | Oxlint |
+| Version Control | Git & GitHub |
 
-## 🔌 API Modules
+## 📂 Project Structure
 
-### Users
-- Create user
-- Get all users
-- Get user by ID
-- Update user
-- Delete user
+```text
+DASHFLOW/
+│
+├── config/
+│   └── db.js
+│
+├── controllers/
+│   ├── adminController.js
+│   ├── orderController.js
+│   ├── productController.js
+│   └── userController.js
+│
+├── middleware/
+│   ├── authMiddleware.js
+│   ├── roleMiddleware.js
+│   └── userValidation.js
+│
+├── models/
+│   ├── orderModel.js
+│   ├── productModel.js
+│   └── userModel.js
+│
+├── routes/
+│   ├── adminRoutes.js
+│   ├── orderRoutes.js
+│   ├── productRoutes.js
+│   └── userRoutes.js
+│
+├── public/
+│
+├── src/
+│   ├── api/
+│   │   └── users.js
+│   │
+│   ├── components/
+│   │   ├── Admin.jsx
+│   │   ├── AnalyticsPage.jsx
+│   │   ├── DashboardOverview.jsx
+│   │   ├── Login.jsx
+│   │   ├── MessagesPage.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── Profile.jsx
+│   │   ├── ProjectsPage.jsx
+│   │   ├── SettingsPage.jsx
+│   │   ├── Sidebar.jsx
+│   │   └── ...
+│   │
+│   ├── App.jsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.jsx
+│
+├── server.mjs
+├── package.json
+├── package-lock.json
+├── vite.config.js
+├── .gitignore
+└── README.md
+```
 
-### Products
-- Create product
-- Get all products
-- Get product by ID
-- Update product
-- Delete product
+## ⚙️ Getting Started
 
-### Orders
-- Create order
-- Get all orders
-- Get order by ID
-- Update order
-- Delete order
+Follow these steps to run DASHFLOW locally.
 
-## 🧪 API Testing
-
-Postman was used to test the REST API endpoints, including:
-
-- GET
-- POST
-- PUT
-- DELETE
-
-## ⚙️ Installation and Setup
-
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/ms-tech-tape/DASHFLOW.git
+```
+
+### 2. Navigate to the Project Directory
+
+```bash
 cd DASHFLOW
 ```
 
-### 2. Install dependencies
+### 3. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Configure environment variables
+### 4. Configure Environment Variables
 
-Create a `.env` file in the project root.
+Create a `.env` file in the project's root directory.
 
-Add your PostgreSQL configuration using the variable names expected by `config/db.js`.
+Add your PostgreSQL database configuration:
 
-Never commit your actual `.env` file.
+```env
+DB_USER=your_postgres_username
+DB_HOST=localhost
+DB_NAME=your_database_name
+DB_PASSWORD=your_database_password
+DB_PORT=5432
+```
 
-### 4. Start the backend
+Replace the example values with your own PostgreSQL configuration.
+
+**Important:** Never commit your `.env` file or expose your database credentials, JWT secrets, or other sensitive information.
+
+### 5. Start the Backend Server
+
+Open a terminal in the project directory:
 
 ```bash
-node server.mjs
+npm run server
 ```
 
-The backend runs on port 5000.
-
-## 📂 Backend Project Structure
+The backend runs on:
 
 ```text
-DASHFLOW/
-├── config/
-│   └── db.js
-├── controllers/
-│   ├── userController.js
-│   ├── productController.js
-│   └── orderController.js
-├── middleware/
-│   └── userValidation.js
-├── models/
-│   ├── userModel.js
-│   ├── productModel.js
-│   └── orderModel.js
-├── routes/
-│   ├── userRoutes.js
-│   ├── productRoutes.js
-│   └── orderRoutes.js
-├── server.mjs
-├── package.json
-└── README.md
+http://localhost:5000
 ```
 
-## 🎯 Learning Outcomes
+### 6. Start the Frontend
 
-Through DASHFLOW, I have been exploring:
+Open a second terminal in the project directory:
 
-- React frontend development.
-- Backend development with Node.js and Express.js.
-- REST API design and implementation.
-- PostgreSQL database integration.
-- CRUD operations.
-- API testing using Postman.
-- Organizing backend code using models, controllers, and routes.
+```bash
+npm run dev
+```
+
+Vite starts the frontend, normally at:
+
+```text
+http://localhost:5173
+```
+
+Open the displayed local URL in your browser.
+
+## 🔗 Backend API Overview
+
+The backend exposes the following API route groups:
+
+| Route | Description |
+|---|---|
+| `/api/users` | User-related operations and authentication |
+| `/api/products` | Product management |
+| `/api/orders` | Order management |
+| `/api/admin` | Administrator-related operations |
+| `/test-db` | PostgreSQL connection test |
+
+The backend supports standard HTTP methods, including:
+
+- GET
+- POST
+- PUT
+- PATCH
+- DELETE
+
+Protected routes use authentication and authorization middleware where required.
+
+## 🔐 Security Implementation
+
+DASHFLOW includes several backend security mechanisms:
+
+- Password hashing using bcrypt.
+- JWT-based user authentication.
+- Authentication middleware for protected routes.
+- Role-based authorization for User and Admin access.
+- Request validation using Express Validator.
+- CORS configuration for frontend-backend communication.
+- Environment variables for database configuration.
+
+## 🗄️ Database
+
+DASHFLOW uses PostgreSQL as its relational database.
+
+The database includes the following tables:
+
+| Table | Purpose |
+|---|---|
+| users | Stores user information |
+| products | Stores product information |
+| categories | Organizes products into categories |
+| orders | Stores order information |
+| order_items | Stores individual items within orders |
+| carts | Stores shopping cart information |
+| cart_items | Stores individual cart items |
+
+The backend uses PostgreSQL connection pooling through the `pg` package.
+
+## 🧪 Testing & Development
+
+The project includes API testing and backend functionality checks.
+
+Useful commands:
+
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start the frontend development server |
+| `npm run server` | Start the backend server |
+| `npm run build` | Build the frontend for production |
+| `npm run preview` | Preview the production build |
+| `npm run lint` | Run Oxlint |
+
+The backend database connection can also be checked using:
+
+```text
+GET http://localhost:5000/test-db
+```
+
+## 📚 Learning Outcomes
+
+Through DASHFLOW, I have worked on:
+
+- Building a React application using reusable components.
+- Managing frontend navigation and application structure.
+- Developing REST APIs using Express.js.
+- Connecting a Node.js backend to PostgreSQL.
+- Implementing CRUD operations.
+- Understanding relational database design.
+- Implementing authentication using JWT.
+- Hashing passwords securely using bcrypt.
+- Implementing role-based access control.
+- Working with middleware and request validation.
+- Testing API endpoints and debugging backend issues.
 
 ## 👩‍💻 Developer
 
-**Mishree Savani**
+**Developed by:** Mishree Savani
 
-GitHub: https://github.com/ms-tech-tape
+**GitHub:** [ms-tech-tape](https://github.com/ms-tech-tape)
+
+**Project Repository:** [DASHFLOW](https://github.com/ms-tech-tape/DASHFLOW)
 
 ---
-
