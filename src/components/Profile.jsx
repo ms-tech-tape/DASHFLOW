@@ -1,40 +1,46 @@
+
 import { useState } from "react";
 import "./Profile.css";
-
-const defaultProfile = {
-  name: "Mishree Savani",
-  email: "mishree@example.com",
-  role: "Frontend Developer",
-  phone: "+91 98765 43210",
-  location: "Surat, India",
-  bio: "Passionate about building modern and interactive web applications.",
-};
 
 function getSavedProfile() {
   try {
     const saved = localStorage.getItem("dashflow-profile");
-    return saved ? JSON.parse(saved) : defaultProfile;
+
+    if (saved) {
+      return JSON.parse(saved);
+    }
   } catch {
-    return defaultProfile;
+    // Use default optional profile details.
   }
+
+  return {
+    phone: "",
+    location: "",
+    bio: "",
+  };
 }
 
-function Profile() {
+function Profile({ user }) {
   const [profile, setProfile] = useState(getSavedProfile);
   const [editData, setEditData] = useState(profile);
   const [isEditing, setIsEditing] = useState(false);
   const [message, setMessage] = useState("");
 
-  const initials = profile.name
-    .trim()
-    .split(/\s+/)
-    .map((word) => word[0])
-    .join("")
-    .slice(0, 2)
+  const firstName = user?.first_name || "User";
+  const lastName = user?.last_name || "";
+  const fullName = `${firstName} ${lastName}`.trim();
+  const email = user?.email || "Not provided";
+
+  const role =
+    user?.role?.toLowerCase() === "admin"
+      ? "Administrator"
+      : "User";
+
+  const initials = `${firstName[0] || "U"}${lastName[0] || ""}`
     .toUpperCase();
 
   function handleEdit() {
-    setEditData(profile);
+    setEditData({ ...profile });
     setMessage("");
     setIsEditing(true);
   }
@@ -51,18 +57,14 @@ function Profile() {
   function handleSave(e) {
     e.preventDefault();
 
-    if (!editData.name.trim() || !editData.email.trim()) {
-      setMessage("Name and email are required.");
-      return;
-    }
-
     const updatedProfile = {
-      ...editData,
-      name: editData.name.trim(),
-      email: editData.email.trim(),
+      phone: editData.phone.trim(),
+      location: editData.location.trim(),
+      bio: editData.bio.trim(),
     };
 
     setProfile(updatedProfile);
+
     localStorage.setItem(
       "dashflow-profile",
       JSON.stringify(updatedProfile)
@@ -73,7 +75,7 @@ function Profile() {
   }
 
   function handleCancel() {
-    setEditData(profile);
+    setEditData({ ...profile });
     setIsEditing(false);
     setMessage("");
   }
@@ -90,13 +92,13 @@ function Profile() {
       <div className="profile-card">
         <div className="profile-top">
           <div className="profile-avatar">
-            {initials || "U"}
+            {initials}
           </div>
 
           <div className="profile-identity">
-            <h2>{profile.name}</h2>
-            <p>{profile.role}</p>
-            <span>{profile.email}</span>
+            <h2>{fullName}</h2>
+            <p>{role}</p>
+            <span>{email}</span>
           </div>
 
           {!isEditing && (
@@ -120,36 +122,18 @@ function Profile() {
             <div className="profile-fields">
 
               <div className="profile-field">
-                <label htmlFor="profile-name">Full Name</label>
-                <input
-                  id="profile-name"
-                  name="name"
-                  value={editData.name}
-                  onChange={handleChange}
-                  required
-                />
+                <label>Full Name</label>
+                <input value={fullName} disabled />
               </div>
 
               <div className="profile-field">
-                <label htmlFor="profile-email">Email Address</label>
-                <input
-                  id="profile-email"
-                  name="email"
-                  type="email"
-                  value={editData.email}
-                  onChange={handleChange}
-                  required
-                />
+                <label>Email Address</label>
+                <input value={email} disabled />
               </div>
 
               <div className="profile-field">
-                <label htmlFor="profile-role">Role</label>
-                <input
-                  id="profile-role"
-                  name="role"
-                  value={editData.role}
-                  onChange={handleChange}
-                />
+                <label>Account Role</label>
+                <input value={role} disabled />
               </div>
 
               <div className="profile-field">
@@ -207,17 +191,17 @@ function Profile() {
 
             <div className="profile-detail">
               <span>Full Name</span>
-              <p>{profile.name}</p>
+              <p>{fullName}</p>
             </div>
 
             <div className="profile-detail">
               <span>Email Address</span>
-              <p>{profile.email}</p>
+              <p>{email}</p>
             </div>
 
             <div className="profile-detail">
-              <span>Role</span>
-              <p>{profile.role || "Not provided"}</p>
+              <span>Account Role</span>
+              <p>{role}</p>
             </div>
 
             <div className="profile-detail">

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import "./Login.css";
 
@@ -6,23 +7,55 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
-    if (!email.trim() || !password.trim()) {
+    if (!email.trim() || !password) {
       setError("Please enter both email and password.");
       return;
     }
 
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
+    try {
+      setLoading(true);
 
-    // Frontend demo login only
-    onLogin();
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed.");
+      }
+
+      if (!data.token || !data.user) {
+        throw new Error("Invalid login response from server.");
+      }
+
+      onLogin({
+        token: data.token,
+        user: data.user,
+      });
+
+    } catch (err) {
+      setError(
+        err.message === "Failed to fetch"
+          ? "Cannot connect to server. Please try again."
+          : err.message
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -50,6 +83,8 @@ function Login({ onLogin }) {
               placeholder="name@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="username"
+              required
             />
           </div>
 
@@ -63,6 +98,8 @@ function Login({ onLogin }) {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                required
               />
 
               <button
@@ -75,27 +112,18 @@ function Login({ onLogin }) {
             </div>
           </div>
 
-          <div className="login-options">
-            <label className="remember-label">
-              <input type="checkbox" />
-              Remember me
-            </label>
+          {error && (
+            <p className="login-error" role="alert">
+              {error}
+            </p>
+          )}
 
-            <button
-              type="button"
-              className="forgot-password"
-              onClick={() =>
-                alert("Password reset will be available with backend authentication.")
-              }
-            >
-              Forgot password?
-            </button>
-          </div>
-
-          {error && <p className="login-error">{error}</p>}
-
-          <button type="submit" className="login-submit">
-            Sign In
+          <button
+            type="submit"
+            className="login-submit"
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "Sign In"}
           </button>
 
         </form>

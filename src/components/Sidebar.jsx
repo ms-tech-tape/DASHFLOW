@@ -1,11 +1,23 @@
-function Sidebar({ isOpen, onClose, activeTab, onNavigate }) {
+
+function Sidebar({
+  isOpen,
+  onClose,
+  activeTab,
+  onNavigate,
+  user,
+}) {
+  const isAdmin = user?.role?.toLowerCase() === "admin";
+
   const menuItems = [
-    { name: "Dashboard", icon: "⌂" },
-    { name: "Analytics", icon: "▤" },
-    { name: "Projects", icon: "▣" },
+    { name: "Dashboard", icon: "▦" },
+    { name: "Analytics", icon: "◧" },
+    { name: "Projects", icon: "◩" },
     { name: "Messages", icon: "✉" },
     { name: "Profile", icon: "👤" },
     { name: "Settings", icon: "⚙" },
+    ...(isAdmin
+      ? [{ name: "Admin", icon: "🛡️" }]
+      : []),
   ];
 
   return (
@@ -18,7 +30,7 @@ function Sidebar({ isOpen, onClose, activeTab, onNavigate }) {
         <div className="sidebar-header">
           <h2>DashFlow</h2>
           <button className="close-sidebar" onClick={onClose}>
-            ✕
+            ×
           </button>
         </div>
 

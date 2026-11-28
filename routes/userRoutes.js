@@ -1,8 +1,10 @@
 
 import express from "express";
 import { body, validationResult } from "express-validator";
+
 import { validateUser } from "../middleware/userValidation.js";
 import { authenticateToken } from "../middleware/authMiddleware.js";
+import { authorizeRoles } from "../middleware/roleMiddleware.js";
 
 import {
     getUsers,
@@ -21,6 +23,7 @@ const checkValidation = (req, res, next) => {
 
     if (!errors.isEmpty()) {
         return res.status(400).json({
+            success: false,
             errors: errors.array()
         });
     }
@@ -28,10 +31,7 @@ const checkValidation = (req, res, next) => {
     next();
 };
 
-// GET all users
-router.get("/", getUsers);
-
-// POST Login
+// PUBLIC: Login
 router.post(
     "/login",
     [
@@ -48,25 +48,44 @@ router.post(
     loginUser
 );
 
-// GET user by ID
-router.get("/:id", getUser);
-export const getUserByEmail = async (email) => {
-    const result = await pool.query(
-        `SELECT user_id, first_name, last_name, email, password_hash, role
-         FROM users
-         WHERE email = $1`,
-        [email]
-    );
-    return result.rows[0];
-};
+// PUBLIC: Register new user
+router.post(
+    "/",
+    validateUser,
+    checkValidation,
+    addUser
+);
 
-// POST create user
-router.post("/", validateUser, checkValidation, addUser);
+// ADMIN ONLY: Get all users
+router.get(
+    "/",
+    authenticateToken,
+    authorizeRoles("admin"),
+    getUsers
+);
 
-// PUT update user
-router.put("/:id", editUser);
+// ADMIN ONLY: Get user by ID
+router.get(
+    "/:id",
+    authenticateToken,
+    authorizeRoles("admin"),
+    getUser
+);
 
-// DELETE user
-router.delete("/:id", removeUser);
+// ADMIN ONLY: Update user
+router.put(
+    "/:id",
+    authenticateToken,
+    authorizeRoles("admin"),
+    editUser
+);
+
+// ADMIN ONLY: Delete user
+router.delete(
+    "/:id",
+    authenticateToken,
+    authorizeRoles("admin"),
+    removeUser
+);
 
 export default router;
