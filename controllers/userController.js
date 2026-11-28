@@ -6,6 +6,9 @@ import {
     updateUser,
     deleteUser
 } from "../models/userModel.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { getUserByEmail } from "../models/userModel.js";
 
 // GET all users
 export const getUsers = async (req, res) => {
@@ -124,5 +127,62 @@ export const removeUser = async (req, res) => {
     } catch (error) {
         console.error("Delete user error:", error.message);
         res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+// LOGIN user
+export const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Find user by email
+        const user = await getUserByEmail(email);
+
+        if (!user) {
+            return res.status(401).json({
+                message: "Invalid email or password"
+            });
+        }
+
+        // Compare password with stored hash
+        const isPasswordValid = await bcrypt.compare(
+            password,
+            user.password_hash
+        );
+
+        if (!isPasswordValid) {
+            return res.status(401).json({
+                message: "Invalid email or password"
+            });
+        }
+
+        // Generate JWT
+        const token = jwt.sign(
+        {
+            userId: user.user_id,
+            email: user.email,
+            role: user.role
+        },
+    process.env.JWT_SECRET,
+    { expiresIn: "15m" }
+);
+
+        res.status(200).json({
+            message: "Login successful",
+            token,
+            user: {
+                user_id: user.user_id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email
+            }
+        });
+
+    } catch (error) {
+        console.error("Login error:", error.message);
+
+        res.status(500).json({
+            message: "Internal server error"
+        });
     }
 };

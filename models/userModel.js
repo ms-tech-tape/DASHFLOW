@@ -1,6 +1,18 @@
 import pool from "../config/db.js";
 import bcrypt from "bcrypt";
 
+// Find user by email (for login)
+export const getUserByEmail = async (email) => {
+    const result = await pool.query(
+        `SELECT user_id, first_name, last_name, email, password_hash, role
+         FROM users
+         WHERE email = $1`,
+        [email]
+    );
+
+    return result.rows[0];
+};
+
 // Get all users
 export const getAllUsers = async () => {
     const result = await pool.query(
